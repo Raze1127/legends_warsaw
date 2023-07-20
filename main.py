@@ -113,6 +113,7 @@ def phone_number_handler(update: Update, context: CallbackContext):
         'phone_number': contact.phone_number
     })
     send_main_menu(update, context)
+    handle_schedule(update, context)
 
 
 
@@ -154,7 +155,7 @@ def question_text_handler(update: Update, context: CallbackContext):
                              text=text)
     context.bot.send_message(chat_id=ADMIN_CHAT_ID, text=f'Вопрос от {update.effective_user.first_name}: {question}')
     send_main_menu(update, context)
-    handle_schedule(update, context)
+
 
 
 def handle_profile(update: Update, context: CallbackContext):
