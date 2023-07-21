@@ -123,7 +123,7 @@ def send_main_menu(update: Update, context: CallbackContext) -> None:
     text = 'Главное меню' if language == 'russian' else 'Головне меню'
     keyboard = [
         ['Задать вопрос', 'Профиль'] if language == 'russian' else ['Задати питання', 'Профіль'],
-        ['Регистрации', 'Расписание'] if language == 'russian' else ['Реєстраціі', 'Розклад'],
+        ['Регистрации'] if language == 'russian' else ['Реєстраціі'],
         ['Презентация', "Курс криптовалют"] if language == 'russian' else ['Презентація', "Курс криптовалют"],
     ]
     context.user_data['qna'] = False
@@ -182,29 +182,7 @@ def change_region(update: Update, context: CallbackContext):
     context.bot.send_message(chat_id=update.effective_chat.id, text=text, reply_markup=reply_markup)
 
 
-# def button_change_region(update: Update, context: CallbackContext) -> None:
-#     global text
-#     query = update.callback_query
-#     query.answer()
-#     language = context.user_data.get('language', 'russian')
-#
-#     if query.data == 'cancel':
-#         handle_profile(update, context)
-#     else:
-#         context.user_data['region'] = query.data.replace('change', '')
-#
-#         ref.child("Users").child(f'{update.effective_chat.id}').update({
-#             'region': context.user_data['region']
-#         })
-#         if query.data == 'regionchange1':
-#             text = 'Вы выбрали Регион 1.' if language == 'russian' else 'Ви вибрали ' \
-#                                                                         'Регіон 1.'
-#
-#         if query.data == 'regionchange2':
-#             text = 'Вы выбрали Регион 2.' if language == 'russian' else 'Ви вибрали ' \
-#                                                                         'Регіон 2.'
-#         query.edit_message_text(text=text)
-#         handle_profile(update, context)
+
 
 
 def change_language(update: Update, context: CallbackContext) -> None:
@@ -871,7 +849,7 @@ def text_handler(update: Update, context: CallbackContext):
         elif text in ['регистрация', 'реєстрація']:
             handle_registration(update, context)
         elif text in ['регистрации', 'реєстраціі']:
-            current_registrations(update, context)
+            handle_schedule(update, context)
         elif text in ['расписание', 'розклад']:
             handle_schedule(update, context)
         elif text in ['изменить регион', 'змінити регіон']:
