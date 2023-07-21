@@ -921,7 +921,7 @@ def main() -> None:
     updater.dispatcher.add_handler(CallbackQueryHandler(handle_region_selection, pattern='^region_'))
     updater.dispatcher.add_handler(CallbackQueryHandler(handle_delete, pattern='^delete_.*$'))
     updater.dispatcher.add_handler(CommandHandler('start', start))
-    updater.dispatcher.add_handler(CallbackQueryHandler(button_lang, pattern='^(russian|ukranian)$'))
+    updater.dispatcher.add_handler(CallbackQueryHandler(button_lang, pattern='^(russian|ukrainian)$'))
     updater.dispatcher.add_handler(CallbackQueryHandler(button_region, pattern='^(region1|region2)$'))
 
     # updater.dispatcher.add_handler(CallbackQueryHandler(button_change_region, pattern='^(regionchange1|regionchange2'
