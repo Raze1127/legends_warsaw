@@ -116,7 +116,6 @@ def phone_number_handler(update: Update, context: CallbackContext):
     handle_schedule(update, context)
 
 
-
 # Отправка главного меню
 def send_main_menu(update: Update, context: CallbackContext) -> None:
     language = context.user_data.get('language', 'russian')
@@ -157,7 +156,6 @@ def question_text_handler(update: Update, context: CallbackContext):
     send_main_menu(update, context)
 
 
-
 def handle_profile(update: Update, context: CallbackContext):
     language = context.user_data.get('language', 'russian')
     text = 'Профиль' if language == 'russian' else 'Профіль'
@@ -180,9 +178,6 @@ def change_region(update: Update, context: CallbackContext):
     ]
     reply_markup = InlineKeyboardMarkup(keyboard)
     context.bot.send_message(chat_id=update.effective_chat.id, text=text, reply_markup=reply_markup)
-
-
-
 
 
 def change_language(update: Update, context: CallbackContext) -> None:
@@ -352,7 +347,8 @@ def handle_registration(update: Update, context: CallbackContext):
 
     keyboard = [
         [
-            InlineKeyboardButton("Оплатить" if current_language == 'russian' else "Оплатити", url=(eventbase['pricelink']))]
+            InlineKeyboardButton("Оплатить" if current_language == 'russian' else "Оплатити",
+                                 url=(eventbase['pricelink']))]
     ]
 
     keyboard2 = [
@@ -367,7 +363,7 @@ def handle_registration(update: Update, context: CallbackContext):
 
     language = context.user_data.get('language', 'russian')
     if not phone:
-        phone=""
+        phone = ""
     messages = {
         'russian': f'Ваши данные для регистрации: \n'
                    f'Имя: {name}\n'
@@ -385,11 +381,10 @@ def handle_registration(update: Update, context: CallbackContext):
     })
     context.bot.send_message(
         ADMIN_CHAT_ID,
-        text=f"Проверьте оплату пользователя {update.effective_user.first_name}, на событие {eventbase['name']}, "
+        text=f"Проверьте оплату пользователя {update.effective_user.first_name}, tgid: @{update.effective_user.username}, Телефон: {phone}  на событие {eventbase['name']}, "
              f"регион: {region}, Тех. данные:[{region},{update.effective_chat.id},{str(event)},{eventbase['name']}]",
         reply_markup=reply_markup2
     )
-
 
     context.bot.send_message(
         chat_id,
@@ -577,6 +572,7 @@ def handle_photo(update: Update, context: CallbackContext):
     update.message.reply_text('Введите цену билета:')
     return PRICELINK
 
+
 def handle_payment(update: Update, context: CallbackContext):
     context.user_data['event_price'] = update.message.text
     update.message.reply_text('Отправьте ссылку для оплаты:')
@@ -689,15 +685,15 @@ def handle_save(update: Update, context: CallbackContext):
     reply_markup2 = InlineKeyboardMarkup(keyboard2)
     context.user_data['current_event_index'] = num_events
     context.user_data['current_event_index'] = num_events
-    i=1
+    i = 1
     for user_id, user_data in users.items():
-            print(i)
-            i= i+1
-            context.bot.send_photo(
-                chat_id=int(user_id),
-                photo=event_photo,
-                caption=f'{str(event_name)}\n{str(event_description)}\n\n📆{str(event_date)}\n📍{str(event_location)}',
-            )
+        print(i)
+        i = i + 1
+        context.bot.send_photo(
+            chat_id=int(user_id),
+            photo=event_photo,
+            caption=f'{str(event_name)}\n{str(event_description)}\n\n📆{str(event_date)}\n📍{str(event_location)}',
+        )
 
     return ConversationHandler.END
 
