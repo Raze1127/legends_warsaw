@@ -35,7 +35,7 @@ def start(update: Update, context: CallbackContext) -> None:
     })
     keyboard = [
         [InlineKeyboardButton("Русский", callback_data='russian'),
-         InlineKeyboardButton("Українська🇺🇦", callback_data='ukranian')]
+         InlineKeyboardButton("Українська🇺🇦", callback_data='ukrainian')]
     ]
     reply_markup = InlineKeyboardMarkup(keyboard)
     update.message.reply_text('Выберете язык:', reply_markup=reply_markup)
@@ -59,10 +59,10 @@ def button_lang(update: Update, context: CallbackContext) -> None:
         query.edit_message_text(text=text)
         request_phone_number(update, context)
 
-    if query.data == 'ukranian':
+    if query.data == 'ukrainian':
         text = 'Ви вибрали українську мову, пізніше буде можливо це поміняти.'
         ref.child("Users").child(f'{update.effective_chat.id}').update({
-            'language': 'ukranian'
+            'language': 'ukrainian'
         })
         keyboard = [
             [InlineKeyboardButton("Регіон 1", callback_data='region1'),
