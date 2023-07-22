@@ -181,7 +181,7 @@ def handle_answer(update: Update, context: CallbackContext):
     keyboard = [
         ['Отмена'],
     ]
-    context.user_data['qna'] = True
+    context.user_data['qna1'] = True
     context.user_data['uid'] = uid
     reply_markup = ReplyKeyboardMarkup(keyboard, resize_keyboard=True)
     context.bot.send_message(chat_id=update.effective_chat.id, text=text, reply_markup=reply_markup)
@@ -851,7 +851,7 @@ def text_handler(update: Update, context: CallbackContext):
         elif text in ['статистика']:
             view_stats(update, context)
         else:
-            if context.user_data.get('qna'):
+            if context.user_data.get('qna1'):
                 handle_answeranswer(update, context)
 
 
