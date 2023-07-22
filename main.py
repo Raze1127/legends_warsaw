@@ -130,7 +130,7 @@ def send_main_menu(update: Update, context: CallbackContext) -> None:
     context.bot.send_message(chat_id=update.effective_chat.id, text=text, reply_markup=reply_markup)
 
 
-ADMIN_CHAT_ID = 464766373
+ADMIN_CHAT_ID = 1149173006
 QNA = 0
 
 
