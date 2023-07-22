@@ -893,7 +893,7 @@ def text_handler(update: Update, context: CallbackContext):
         else:
             if context.user_data.get('qna'):
                 question_text_handler(update, context)
-             if context.user_data.get('qna1'): handle_answeranswer(update, context)
+           elif context.user_data.get('qna1'): handle_answeranswer(update, context)
 
 
 def error_callback(update, context):
