@@ -152,7 +152,11 @@ def question_text_handler(update: Update, context: CallbackContext):
     text = 'Вопрос отправлен! Ответ поступит вам в данный чат.' if language == 'russian' else 'Питання відправлено! Відповідь надійде вам в даний чат.'
     context.bot.send_message(chat_id=update.effective_chat.id,
                              text=text)
-    context.bot.send_message(chat_id=ADMIN_CHAT_ID, text=f'Вопрос от {update.effective_user.first_name}: {question}')
+    keyboard = [
+        [InlineKeyboardButton("Ответить", callback_data='answer')]
+    ]
+    reply_markup = InlineKeyboardMarkup(keyboard)
+    context.bot.send_message(chat_id=ADMIN_CHAT_ID, text=f'Вопрос от {update.effective_user.first_name}: {question}\n///{update.effective_chat.id}', reply_markup=reply_markup)
     send_main_menu(update, context)
 
 
@@ -166,6 +170,26 @@ def handle_profile(update: Update, context: CallbackContext):
     ]
     reply_markup = ReplyKeyboardMarkup(keyboard, resize_keyboard=True, one_time_keyboard=True)
     context.bot.send_message(chat_id=update.effective_chat.id, text=text, reply_markup=reply_markup)
+
+def handle_answer(update: Update, context: CallbackContext):
+    query = update.callback_query
+    query.answer()
+    parts = query.message.text.split("///")
+    uid = parts[1]
+    text = "Введите ответ на вопрос:"
+
+    keyboard = [
+        ['Отмена'],
+    ]
+    context.user_data['qna'] = True
+    context.user_data['uid'] = uid
+    reply_markup = ReplyKeyboardMarkup(keyboard, resize_keyboard=True)
+    context.bot.send_message(chat_id=update.effective_chat.id, text=text, reply_markup=reply_markup)
+
+def handle_answeranswer(update: Update, context: CallbackContext):
+    answer = update.message.text
+    uid = context.user_data.get('uid', 'russian')
+    context.bot.send_message(chat_id=uid, text=f"Ответ от администратора:\n {answer}")
 
 
 def change_region(update: Update, context: CallbackContext):
@@ -826,6 +850,11 @@ def text_handler(update: Update, context: CallbackContext):
             handle_schedule(update, context)
         elif text in ['статистика']:
             view_stats(update, context)
+        else:
+            if context.user_data.get('qna'):
+                handle_answeranswer(update, context)
+
+
 
     else:
         if text in ['отмена', 'скасувати']:
@@ -908,6 +937,7 @@ def main() -> None:
     updater.dispatcher.add_handler(CallbackQueryHandler(handle_registration, pattern='^register$'))
     updater.dispatcher.add_handler(CallbackQueryHandler(handle_approve, pattern='^approve$'))
     updater.dispatcher.add_handler(CallbackQueryHandler(handle_notapprove, pattern='^notapprove$'))
+    updater.dispatcher.add_handler(CallbackQueryHandler(handle_answer, pattern='^answer'))
     updater.dispatcher.add_handler(MessageHandler(Filters.contact, phone_number_handler))
     updater.dispatcher.add_handler(MessageHandler(Filters.text, text_handler))
     updater.dispatcher.add_handler(MessageHandler(Filters.text & (~Filters.command), question_text_handler))
