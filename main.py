@@ -187,8 +187,12 @@ def handle_answer(update: Update, context: CallbackContext):
     context.bot.send_message(chat_id=update.effective_chat.id, text=text, reply_markup=reply_markup)
 
 def handle_answeranswer(update: Update, context: CallbackContext):
+
     answer = update.message.text
     uid = context.user_data.get('uid', 'russian')
+    print("hi")
+    print(answer)
+    print(uid)
     context.bot.send_message(chat_id=uid, text=f"Ответ от администратора:\n {answer}")
 
 
@@ -851,8 +855,8 @@ def text_handler(update: Update, context: CallbackContext):
         elif text in ['статистика']:
             view_stats(update, context)
         else:
-            if context.user_data.get('qna1'):
-                handle_answeranswer(update, context)
+            if context.user_data.get('qna1'): handle_answeranswer(update, context)
+
 
 
 
