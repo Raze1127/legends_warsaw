@@ -194,6 +194,7 @@ def handle_answeranswer(update: Update, context: CallbackContext):
     print(answer)
     print(uid)
     context.bot.send_message(chat_id=uid, text=f"Ответ от администратора:\n {answer}")
+    admin_login(update, context)
 
 
 def change_region(update: Update, context: CallbackContext):
