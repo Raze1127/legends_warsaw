@@ -91,6 +91,10 @@ def button_region(update: Update, context: CallbackContext) -> None:
     request_phone_number(update, context)
 
 
+ADMIN_CHAT_ID = 1149173006
+QNA = 0
+
+
 # Запрос номера телефона
 def request_phone_number(update: Update, context: CallbackContext):
     phone_keyboard = KeyboardButton(
@@ -99,6 +103,12 @@ def request_phone_number(update: Update, context: CallbackContext):
     cancel_keyboard = KeyboardButton(text="Отмена" if context.user_data['language'] == 'russian' else "Скасувати")
     custom_keyboard = [[phone_keyboard], [cancel_keyboard]]
     reply_markup = ReplyKeyboardMarkup(custom_keyboard, resize_keyboard=True)
+    context.bot.send_message(chat_id=ADMIN_CHAT_ID,
+                             text=f'Новый пользователь:'
+                                  f'\n{update.effective_user.first_name}\n'
+                                  f'\n{update.effective_user.username}\n'
+                                  f'\n{update.effective_user.id}\n'
+                             )
     context.bot.send_message(chat_id=update.effective_chat.id,
                              text="Пожалуйста, поделитесь своим номером телефона." if context.user_data[
                                                                                           'language'] == 'russian' else "Будь ласка, поділіться своїм номером телефону.",
@@ -130,10 +140,6 @@ def send_main_menu(update: Update, context: CallbackContext) -> None:
     context.bot.send_message(chat_id=update.effective_chat.id, text=text, reply_markup=reply_markup)
 
 
-ADMIN_CHAT_ID = 1149173006
-QNA = 0
-
-
 def handle_question(update: Update, context: CallbackContext):
     language = context.user_data.get('language', 'russian')
     text = 'Введите ваш вопрос:' if language == 'russian' else 'Введіть своє запитання:'
@@ -156,7 +162,9 @@ def question_text_handler(update: Update, context: CallbackContext):
         [InlineKeyboardButton("Ответить", callback_data='answer')]
     ]
     reply_markup = InlineKeyboardMarkup(keyboard)
-    context.bot.send_message(chat_id=ADMIN_CHAT_ID, text=f'Вопрос от {update.effective_user.first_name}: {question}\n///{update.effective_chat.id}', reply_markup=reply_markup)
+    context.bot.send_message(chat_id=ADMIN_CHAT_ID,
+                             text=f'Вопрос от {update.effective_user.first_name}: {question}\n///{update.effective_chat.id}',
+                             reply_markup=reply_markup)
     send_main_menu(update, context)
 
 
@@ -170,6 +178,7 @@ def handle_profile(update: Update, context: CallbackContext):
     ]
     reply_markup = ReplyKeyboardMarkup(keyboard, resize_keyboard=True, one_time_keyboard=True)
     context.bot.send_message(chat_id=update.effective_chat.id, text=text, reply_markup=reply_markup)
+
 
 def handle_answer(update: Update, context: CallbackContext):
     query = update.callback_query
@@ -186,8 +195,8 @@ def handle_answer(update: Update, context: CallbackContext):
     reply_markup = ReplyKeyboardMarkup(keyboard, resize_keyboard=True)
     context.bot.send_message(chat_id=update.effective_chat.id, text=text, reply_markup=reply_markup)
 
-def handle_answeranswer(update: Update, context: CallbackContext):
 
+def handle_answeranswer(update: Update, context: CallbackContext):
     answer = update.message.text
     uid = context.user_data.get('uid', 'russian')
     print("hi")
@@ -895,7 +904,7 @@ def text_handler(update: Update, context: CallbackContext):
                 question_text_handler(update, context)
 
             elif context.user_data.get('qna1', False):
-              handle_answeranswer(update, context)
+                handle_answeranswer(update, context)
 
 
 def error_callback(update, context):
