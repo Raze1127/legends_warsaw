@@ -739,6 +739,7 @@ def handle_save(update: Update, context: CallbackContext):
 def handlemessage(update: Update, context: CallbackContext):
     ref = firebase_admin.db.reference('Users')
     users = ref.get()
+    i = 1
     for user_id, user_data in users.items():
         print(i)
         i = i + 1
