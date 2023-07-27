@@ -736,19 +736,26 @@ def handle_save(update: Update, context: CallbackContext):
     return ConversationHandler.END
 
 
-def handlemessage(update: Update, context: CallbackContext):
-    ref = firebase_admin.db.reference('Users')
-    users = ref.get()
-    i = 1
-    for user_id, user_data in users.items():
-        print(i)
-        i = i + 1
-        print(user_id)
-        context.bot.send_video(
-            chat_id=int(user_id),
-            video='https://firebasestorage.googleapis.com/v0/b/legendswarsaw.appspot.com/o/IMG_9459.mp4?alt=media&token=840a9ddc-3203-4bef-8e23-c33a5fd6067e',
-            caption='Друзья, наша конференция пройдёт по адресу :\n📍Grzybowska 56 | “ADN Centrum Konferencyjne"\n\nНиже прикрепляем инструкцию как пройти на локацию. \nЗаходите в здание и просите, чтобы вас впустили на 4 этаж в АДН. \n \n До скорой встречи 🤝'
-        )
+from telegram.error import TelegramError
+
+def handlemessage(update: Update, context: CallbackContext): 
+    ref = firebase_admin.db.reference('Users') 
+    users = ref.get() 
+    i = 1 
+    for user_id, user_data in users.items(): 
+        try:
+            print(i) 
+            i = i + 1 
+            print(user_id) 
+            context.bot.send_video( 
+                chat_id=int(user_id), 
+                video='https://firebasestorage.googleapis.com/v0/b/legendswarsaw.appspot.com/o/IMG_9459.mp4?alt=media&token=840a9ddc-3203-4bef-8e23-c33a5fd6067e', 
+                caption='Друзья, наша конференция пройдёт по адресу :\n📍Grzybowska 56 | “ADN Centrum Konferencyjne"\n\nНиже прикрепляем инструкцию как пройти на локацию. \nЗаходите в здание и просите, чтобы вас впустили на 4 этаж в АДН. \n \n До скорой встречи 🤝' 
+            )
+        except TelegramError as e:
+            print(f"Failed to send video to user {user_id}. Error: {e.message}")
+            continue
+
 def handlemessageTest(update: Update, context: CallbackContext):
     ref = firebase_admin.db.reference('Users')
     users = ref.get()
