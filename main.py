@@ -736,6 +736,28 @@ def handle_save(update: Update, context: CallbackContext):
     return ConversationHandler.END
 
 
+def handlemessage(update: Update, context: CallbackContext):
+    ref = firebase_admin.db.reference('Users')
+    users = ref.get()
+    for user_id, user_data in users.items():
+        print(i)
+        i = i + 1
+        print(user_id)
+        # context.bot.send_video(
+        #     chat_id=int(user_id),
+        #     photo='https://firebasestorage.googleapis.com/v0/b/legendswarsaw.appspot.com/o/IMG_9459.MOV?alt=media&token=03c38f60-b5f9-4a0f-83f4-07a62f026617',
+        #     caption='Друзья, наша конференция пройдёт по адресу :\n📍Grzybowska 56 | “ADN Centrum Konferencyjne"\n\nНиже прикрепляем инструкцию как пройти на локацию. \nЗаходите в здание и просите, чтобы вас впустили на 4 этаж в АДН. \n \n До скорой встречи 🤝'
+        # )
+def handlemessageTest(update: Update, context: CallbackContext):
+    ref = firebase_admin.db.reference('Users')
+    users = ref.get()
+    user_id = 464766373
+    context.bot.send_video(
+            chat_id=int(user_id),
+            photo='https://firebasestorage.googleapis.com/v0/b/legendswarsaw.appspot.com/o/IMG_9459.MOV?alt=media&token=03c38f60-b5f9-4a0f-83f4-07a62f026617',
+            caption='Друзья, наша конференция пройдёт по адресу :\n📍Grzybowska 56 | “ADN Centrum Konferencyjne"\n\nНиже прикрепляем инструкцию как пройти на локацию. \nЗаходите в здание и просите, чтобы вас впустили на 4 этаж в АДН. \n \n До скорой встречи 🤝'
+    )
+
 def handle_cancel(update: Update, context: CallbackContext):
     query = update.callback_query
     query.answer()
@@ -864,6 +886,10 @@ def text_handler(update: Update, context: CallbackContext):
             handle_schedule(update, context)
         elif text in ['статистика']:
             view_stats(update, context)
+        elif text == 'тест':
+            handlemessageTest(update, context)
+        elif text == "запускай":
+            handlemessage(update, context)
         else:
             if context.user_data.get('qna1'): handle_answeranswer(update, context)
 
