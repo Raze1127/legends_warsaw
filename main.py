@@ -744,18 +744,18 @@ def handlemessage(update: Update, context: CallbackContext):
         print(i)
         i = i + 1
         print(user_id)
-        # context.bot.send_video(
-        #     chat_id=int(user_id),
-        #     photo='https://firebasestorage.googleapis.com/v0/b/legendswarsaw.appspot.com/o/IMG_9459.MOV?alt=media&token=03c38f60-b5f9-4a0f-83f4-07a62f026617',
-        #     caption='Друзья, наша конференция пройдёт по адресу :\n📍Grzybowska 56 | “ADN Centrum Konferencyjne"\n\nНиже прикрепляем инструкцию как пройти на локацию. \nЗаходите в здание и просите, чтобы вас впустили на 4 этаж в АДН. \n \n До скорой встречи 🤝'
-        # )
+        context.bot.send_video(
+            chat_id=int(user_id),
+            photo='https://firebasestorage.googleapis.com/v0/b/legendswarsaw.appspot.com/o/IMG_9459.mp4?alt=media&token=840a9ddc-3203-4bef-8e23-c33a5fd6067e',
+            caption='Друзья, наша конференция пройдёт по адресу :\n📍Grzybowska 56 | “ADN Centrum Konferencyjne"\n\nНиже прикрепляем инструкцию как пройти на локацию. \nЗаходите в здание и просите, чтобы вас впустили на 4 этаж в АДН. \n \n До скорой встречи 🤝'
+        )
 def handlemessageTest(update: Update, context: CallbackContext):
     ref = firebase_admin.db.reference('Users')
     users = ref.get()
     user_id = 464766373
     context.bot.send_video(
             chat_id=int(user_id),
-            video='https://firebasestorage.googleapis.com/v0/b/legendswarsaw.appspot.com/o/IMG_9459.MOV?alt=media&token=03c38f60-b5f9-4a0f-83f4-07a62f026617',
+            video='https://firebasestorage.googleapis.com/v0/b/legendswarsaw.appspot.com/o/IMG_9459.mp4?alt=media&token=840a9ddc-3203-4bef-8e23-c33a5fd6067e',
             caption='Друзья, наша конференция пройдёт по адресу :\n📍Grzybowska 56 | “ADN Centrum Konferencyjne"\n\nНиже прикрепляем инструкцию как пройти на локацию. \nЗаходите в здание и просите, чтобы вас впустили на 4 этаж в АДН. \n \n До скорой встречи 🤝'
     )
 
