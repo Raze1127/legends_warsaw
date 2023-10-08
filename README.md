@@ -11,5 +11,5 @@ Notifications: Users receive timely notifications about upcoming events and tick
 Configuration
 Ensure you configure the following settings:
 
-Telegram Bot Token: Obtain this from BotFather and set it in the configuration file.
+Telegram Bot Token: Obtain this from BotFather and set it in the configuration file
 Firebase Credentials: Set up a Firebase project and provide the necessary credentials and configuration in the bot's settings.
